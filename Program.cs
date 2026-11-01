@@ -17,6 +17,7 @@ string sampleHtml = """
       <p class="class-name other">Second paragraph</p>
     </div>
     <div id="mydiv"><span class="class-name">inside mydiv</span></div>
+    <a href="x.html" title="1 > 0" data-x='a>b'>link</a>
   </body>
 </html>
 """;
@@ -31,6 +32,12 @@ RunQuery(dom, "div p.class-name");      // 2 תוצאות, בלי כפילויו
 RunQuery(dom, "div#main.container");     // 1
 RunQuery(dom, "#mydiv .class-name");     // 1 (span)
 RunQuery(dom, "body div div p");         // 1
+RunQuery(dom, "a");                      // 1 - ">" בתוך ערך attribute לא שובר את התגית
+RunQuery(dom, "my-widget p");            // 0 - תגית לא מוכרת לא מתאימה לכל תגית
+RunQuery(dom, "* p.other");              // 1 - "*" = כל תגית
+
+var link = dom.Query("a").First();
+Console.WriteLine($"\nAttributes of {link}: {string.Join(", ", link.Attributes.Select(a => $"{a.Key}=\"{a.Value}\""))}");
 
 // Ancestors
 var span = dom.Query("span").First();

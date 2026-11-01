@@ -42,8 +42,9 @@ public class HtmlSerializer
         html = Regex.Replace(html, @"(<(script|style)\b[^>]*>)[\s\S]*?(</\2\s*>)", "$1$3",
             RegexOptions.IgnoreCase);
 
-        // פיצול לפי תגיות - הסוגריים ב-Regex שומרים את התגיות עצמן ברשימה
-        string[] parts = Regex.Split(html, @"(<[^>]*>)");
+        // פיצול לפי תגיות - הסוגריים ב-Regex שומרים את התגיות עצמן ברשימה.
+        // ערכים בגרשיים מדולגים בשלמותם, כך ש-> בתוך ערך של attribute לא סוגר את התגית.
+        string[] parts = Regex.Split(html, @"(<(?:""[^""]*""|'[^']*'|[^'"">])*>)");
 
         return parts
             .Select(p => Regex.Replace(p, @"\s+", " ").Trim()) // ירידות שורה ורווחים מיותרים

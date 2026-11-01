@@ -44,7 +44,9 @@ public class Selector
                     selector.Id = part.Substring(1);
                 else if (part.StartsWith("."))
                     selector.Classes.Add(part.Substring(1));
-                else if (HtmlHelper.Instance.IsHtmlTag(part))
+                else if (part != "*")
+                    // שם תגית נשמר תמיד, גם אם אינו מוכר - כדי שלא יתאים לכל תגית.
+                    // "*" = כל תגית (בלי סינון לפי שם)
                     selector.TagName = part.ToLower();
             }
 
